@@ -12,5 +12,3 @@ public class HealthController {
         return "Ok.";
     }
 }
-
-erro intencional
