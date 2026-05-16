@@ -1,0 +1,37 @@
+name: Testes 2
+
+# 1. GATILHO: Quando este robô deve acordar?
+on:
+  push:
+    branches:
+      - develop
+      - "feat/**" # Toda branch que começar com feat/ (ex: feat/login, feat/cadastro, etc)
+  pull_request:
+    branches:
+      - develop
+
+# 2. O TRABALHO (Jobs)
+jobs:
+  build_e_testes:
+    # ONDE o robô vai rodar? (Em um servidor Ubuntu emprestado pelo GitHub)
+    runs-on: ubuntu-latest
+
+    # 3. O PASSO A PASSO
+    steps:
+      # Ação pronta do GitHub para fazer o 'git clone' do seu projeto
+      - name: Baixar o código fonte
+        uses: actions/checkout@v4
+
+      # Ação pronta para instalar o Java 21 no servidor
+      - name: Configurar o Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven # Guarda downloads em cache para deixar as próximas vezes mais rápidas
+
+      - name: Testar com Maven
+        run: mvn clean test
+
+      - name: Compilar com Maven
+        run: mvn clean package -DskipTests
