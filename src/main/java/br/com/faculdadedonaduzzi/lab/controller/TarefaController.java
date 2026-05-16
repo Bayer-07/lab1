@@ -52,4 +52,11 @@ public class TarefaController {
         Task savedTask = taskRepository.save(newTask);
         return new TarefaReponseDTO(savedTask);
     }
+
+    @GetMapping("/{id}")
+    public TarefaReponseDTO getById(@PathVariable Long id) {
+        Task task = taskRepository.findById(id).orElseThrow();
+        return new TarefaReponseDTO(task);
+    }
+
 }
